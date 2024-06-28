@@ -1,24 +1,22 @@
 {
-    "products": [
-        {
-            "id": 1,
-            "name": "iPhone",
-            "description": "This is iPhone"
-        },
-        {
-            "id": 2,
-            "name": "Samsung",
-            "description": "This is Samsung"
-        },
-        {
-            "id": 3,
-            "name": "Nokia",
-            "description": "This is Nokia"
-        },
-        {
-            "id": 4,
-            "name": "Xiaomi",
-            "description": "This is Xiaomi"
-        }
-    ]
+  "products": [
+    {
+      "name": "Samsung",
+      "description": "This is Samsung 1",
+      "checked": false,
+      "id": 5
+    },
+    {
+      "name": "133",
+      "description": "1311",
+      "checked": false,
+      "id": 6
+    },
+    {
+      "name": "11",
+      "description": "11",
+      "checked": false,
+      "id": 7
+    }
+  ]
 }
