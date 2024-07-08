@@ -1,18 +1,16 @@
 import { useEffect, useState } from 'react';
 import './App.css';
 import { useForm } from 'react-hook-form';
+import FormAdd from './components/FormAdd';
+import { Product } from './types/Product';
+import List from './components/List';
 
-interface Product {
-  id: number;
-  name?: string;
-  description?: string;
-  checked: boolean;
-}
+
 
 function App() {
   const [products, setProducts] = useState<Product[]>([]);
   const [currentProduct, setCurrentProduct] = useState<Product>({} as Product);
-  const { reset, register, handleSubmit, formState: { }, } = useForm();
+  const { reset, register, handleSubmit } = useForm();
 
   useEffect(() => {
     fetch('http://localhost:3000/products')
@@ -32,10 +30,10 @@ function App() {
 
 
 
-  const onEdit = async (data: any) => {
+  const handleEdit = async (data: any) => {
     try {
       fetch(`http://localhost:3000/products/${currentProduct.id}`, {
-        method: 'PATCH',
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -52,7 +50,7 @@ function App() {
     }
   };
 
-  const onAdd = (data: any) => {
+  const handleAdd = (data: any) => {
     //Nếu nhập dữ liệu xong chưa ấn thêm và ấn sửa sp nào đó, xong tiếp đó mới ấn thêm mới
     const { name2, description2, ...newData } = data
     fetch('http://localhost:3000/products', {
@@ -65,7 +63,6 @@ function App() {
       .then((res) => res.json())
       .then((newProduct) => {
         setProducts([...products, newProduct]);
-        reset();
       });
   }
 
@@ -89,65 +86,19 @@ function App() {
     <>
       <div className='container'>
         <div className='flex justify-center'>
-          <form className="mt-3" onSubmit={handleSubmit(onAdd)}>
-            <div className="mb-5">
-              <input placeholder='Name' className="border p-1 rounded-sm" {...register('name')} /> <br />
-            </div>
-            <div className="mb-5">
-              <input placeholder='Description' className="border p-1 rounded-sm" {...register('description')} /> <br />
-            </div>
-            <button
-              className="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-md text-sm px-5 py-1.5 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-900"
-              type="submit"
-            >
-              Add
-            </button>
-          </form>
+          <FormAdd onAdd={handleAdd} />
         </div>
         <h1 className="container my-3 text-3xl text-center">List Product</h1>
         {products.map((item, index) => (
-          <div key={item.id} className="flex justify-center container mx-auto">
-            {(item.id === currentProduct.id && currentProduct.checked === false) ? (
-              <form className="flex items-center" onSubmit={handleSubmit(onEdit)}>
-                <input className="border p-1 rounded-sm" type="text" {...register('name2')} />
-                <input className="border p-1 rounded-sm" type="text" {...register('description2')} />
-                <button
-                  className="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-3 py-1.5 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-900"
-                  type="submit"
-                >
-                  OK
-                </button>
-                <button
-                  onClick={() => setCurrentProduct({} as Product)}
-                  className='focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-3 py-1.5 ml-1 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900'
-                  type="submit"
-                >
-                  X
-                </button>
-              </form>
-            ) : (
-              <div className="flex items-center">
-                <input className="mr-2" type="checkbox" onClick={() => { handleChangeChecked(item) }} />
-                <p onClick={() => {
-                  setCurrentProduct(item)
-                  reset({
-                    name2: item.name,
-                    description2: item.description
-                  })
-                }}
-                  className={item.checked ? 'text-lg line-through w-96' : 'text-lg w-96 hover:cursor-pointer'}>
-                  {index + 1} - {item.name} - {item.description}
-                </p>
-                <button
-                  className={'focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-3 py-0.5 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900'}
-                  onClick={() => handleDelete(item.id)}
-                  type="button"
-                >
-                  Delete
-                </button>
-              </div>
-            )}
-          </div>
+          <List
+            item={item}
+            index={index}
+            currentProduct={currentProduct}
+            handleChangeChecked={handleChangeChecked}
+            setCurrentProduct={setCurrentProduct}
+            onDelete={handleDelete}
+            onEdit={handleEdit}
+          />
         ))}
       </div>
 

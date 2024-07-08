@@ -1,22 +1,28 @@
 {
   "products": [
     {
-      "name": "Samsung",
-      "description": "This is Samsung 1",
-      "checked": false,
-      "id": 5
+      "name": "San pham 2",
+      "description": "Mo ta san pham 1",
+      "checked": true,
+      "id": 1
     },
     {
-      "name": "133",
-      "description": "1311",
+      "name": "San pham 2",
+      "description": "Mo ta san pham 2",
       "checked": false,
-      "id": 6
+      "id": 2
     },
     {
-      "name": "11",
-      "description": "11",
+      "name": "123 chinh sua",
+      "description": "123 chinh sua",
+      "checked": true,
+      "id": 3
+    },
+    {
+      "name": "12312",
+      "description": "123123",
       "checked": false,
-      "id": 7
+      "id": 4
     }
   ]
 }
