@@ -11,7 +11,6 @@ const FormEdit = ({ resetCurrentProduct, currentProduct, onEdit }: any) => {
     const onSubmit = (data: any) => {
         onEdit(data)
         resetCurrentProduct()
-        console.log(data)
     }
     return (
         <>
